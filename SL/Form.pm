@@ -206,6 +206,7 @@ sub error {
   my ($self, $msg, $dbmsg) = @_;
 
   if ($ENV{HTTP_USER_AGENT}) {
+    $dbmsg ||= "";
     $self->{msg} = $msg;
     $self->{dbmsg} = $dbmsg;
     $self->{format} = "html";
@@ -294,7 +295,16 @@ sub header {
 
   return if $self->{header};
 
-  my ($stylesheet, $javascript, $favicon, $charset);
+  if($self->{json}){
+    print qq|Content-Type: application/json
+
+    |;
+
+    return;
+  }
+  my ($stylesheet, $javascript, $favicon, $charset) = ("", "", "", "");
+  $self->{customheader} ||= '';
+  $self->{pre} ||= '';
 
   if ($ENV{HTTP_USER_AGENT}) {
 
@@ -3690,6 +3700,11 @@ sub text {
   
   return (exists $self{texts}{$text}) ? $self{texts}{$text} : $text;
   
+}
+
+sub all_texts {
+  my($self, $text) = @_;
+  return $self{texts};
 }
 
 

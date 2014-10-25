@@ -9,6 +9,9 @@ $spool = "spool";
 # templates base directory
 $templates = "templates";
 
+# views base directory
+$views = "views";
+
 # member file
 $memberfile = "users/members";
 

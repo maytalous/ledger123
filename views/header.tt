@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>[% titlebar %]</title>
+		<META NAME="robots" CONTENT="noindex,nofollow" />
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		[% favicon %]
+		[% customheader %]
+		[% stylesheet %]
+		[% charset %]
+	</head>
+	<body>
+		[% dump %]

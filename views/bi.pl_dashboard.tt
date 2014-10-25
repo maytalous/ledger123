@@ -1,0 +1,78 @@
+[%# Gabo Reyes #%]
+[%# github.com/maytalous #%]
+[% INCLUDE "./views/header.tt" %]
+
+  <div id="header">
+    <table width="100%">
+      <tr width="100%">
+        <th colspan="2" class="listtop">Dashboard</th>
+      </tr>
+      <tr>
+        <td align="left">
+          &nbsp
+        </td>
+        <td align="right">
+          <button id="refresh">Refresh</button>
+        </td>
+      </tr>
+    </table>
+  </div> <!--- header --->
+  <!--- init of content --->
+  <div id="widgets">
+  </div>
+  <!--- end of content --->
+  <!--- init of scripts -->
+    <script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart","controls","table"]});
+    </script>
+
+    <script type="text/javascript">
+      $(document).ready(function (){
+
+        // initialization
+        var dash = $.ajax( 'bi.pl', 
+        { async : false, 
+          data : { 
+            'path' : 'bin/mozilla/', 'js' : '1', 
+            'action' : 'get', 
+            'type' : 'dash', 
+            'login' : '[% login %]' }
+        });
+
+        kpis = dash.responseJSON.kpis;
+        
+        for(var i=0, l=kpis.length; i<l; i++) {
+          kpis[i].index = i;                     //widget number
+          kpis[i].id = kpis[i].id + i;           //widget element id
+          kpis[i].kpiId = "kpi" + kpis[i].id;    //kpi element id
+          addWidget( kpis[i] );
+          var widget = document.getElementById(kpis[i].id);
+          doOpts( widget, "kpi", kpis[i] ); 
+          doOpts( widget, "login", "[% login %]" ); 
+          doOpts( widget, "width", "400px" ); 
+        };
+
+        $( "#widgets" )
+          .find( ".widget" )
+          .each(function() {
+            element = $(this).get(0);
+            doChart(element, doOpts(element));
+          });
+
+        // change chart type
+        $('.widgetType').change(function(e){
+          var kpi = $(this).parent(".widget").find(".kpi").get(0);
+          doOpts(kpi, "type", $(this).val() );
+          doChart(kpi, doOpts(kpi));
+          e.preventDefault();
+        });
+
+        $('#refresh').click(function(e){
+          location.reload();
+          e.preventDefault();
+        });
+      });
+    </script>
+  <!--- end of scripts -->
+
+[% INCLUDE "./views/footer.tt" %]

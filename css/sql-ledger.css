@@ -401,4 +401,23 @@ h2.error {
 	display: none;
 }
 
+/* dashboard maytalous@yahoo.com */
+
+.widget {
+       border: 1px solid;
+       margin: 10px 0px;
+       padding:15px 10px 15px 50px;
+       background-repeat: no-repeat;
+       background-position: 10px center;
+       color: #00529B;
+       background-color: #FFFFFF;
+       width: 400px;
+       overflow: scroll;
+}
+
+.kpi {
+       width: 350px;
+       height: 300px;
+}
+
 ---------------------------------------------------------------------------
